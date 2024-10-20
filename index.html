@@ -11,15 +11,19 @@
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
+            transition: background-image 0.5s ease;
         }
 
         .container {
-            max-width: 800px;
+            width: 800px;
+            height: 600px;
             margin: 0 auto;
             padding: 20px;
             background-color: rgba(255, 255, 255);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
         }
 
         .profile-picture {
@@ -31,18 +35,27 @@
             box-shadow: 0 0 10px rgba(0, 0, 0);
             border-radius: 50%;
             overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
 
         .profile-picture img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: opacity 0.5s ease;
         }
 
         h1 {
             text-align: center;
             margin-top: 20px;
             font-size: 36px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 28px;
             font-weight: bold;
             color: #333;
         }
@@ -57,27 +70,9 @@
         .achievements {
             margin-top: 20px;
             padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(255, 255, 255);
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-        }
-
-        .achievements h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .achievements ul {
-            list-style-type: none;
-            padding: 0;
-            font-size: 18px;
-            color: #666;
-        }
-
-        .achievements ul li {
-            margin-bottom: 10px;
         }
 
         .social-links {
@@ -114,21 +109,67 @@
         .social-links .fa-vk {
             color: #4682b4;
         }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .nav-links {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .nav-links a {
+            margin: 0 15px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .nav-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            color: #999;
+            font-size: 16px;
+            margin-top: 20px;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="profile-picture">
-            <img src="eee.jpg" alt="Profile Picture">
+        <div class="profile-picture" onclick="changeImage()">
+            <img id="profileImg" src="eee.jpg" alt="Profile Picture">
         </div>
         <h1>Ким Андрей</h1>
-        <p>Дата рождения: ¯\_(ツ)_/¯</p>
-        <p>Караганда, Республика Казахстан</p>
-        <div class="song">
-            <p>Любимая песня: <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Cool</a></p>
+
+        <div class="nav-links">
+            <a href="#" onclick="showSection('about')">Обо мне</a>
+            <a href="#" onclick="showSection('achievements')">Достижения</a>
+            <a href="#" onclick="showSection('contacts')">Контакты</a>
         </div>
-        <div class="achievements">
+
+        <div id="about" class="section active">
+            <h2>Обо мне</h2>
+            <p>Дата рождения: ¯\_(ツ)_/¯</p>
+            <p>Караганда, Республика Казахстан</p>
+            <div class="song">
+                <p>Любимая песня: <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">Cool</a></p>
+            </div>
+        </div>
+
+        <div id="achievements" class="section">
             <h2>Достижения</h2>
             <ul>
                 <li>Призёр БИБН</li>
@@ -136,11 +177,40 @@
                 <li>Мастер по спорту</li>
             </ul>
         </div>
-        <div class="social-links">
-            <a href="https://t.me/ar_jfb" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
-            <a href="https://www.instagram.com/ar_jfb" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
-            <a href="https://vk.com/andrewkim12" target="_blank"><i class="fab fa-vk"></i> VK</a>
+
+        <div id="contacts" class="section">
+            <h2>Контакты</h2>
+            <div class="social-links">
+                <a href="https://t.me/ar_jfb" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+                <a href="https://www.instagram.com/ar_jfb" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="https://vk.com/andrewkim12" target="_blank"><i class="fab fa-vk"></i> VK</a>
+            </div>
         </div>
+        
+        <div class="footer">#IWasHere</div>
     </div>
+
+    <script>
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
+        }
+
+        function changeImage() {
+            const img = document.getElementById('profileImg');
+            const body = document.body;
+            
+            if (img.src.includes('eee.jpg')) {
+                img.src = 'ken.jpg';
+                body.style.backgroundImage = "url('eee.jpg')";
+            } else {
+                img.src = 'eee.jpg';
+                body.style.backgroundImage = "url('ken.jpg')";
+            }
+        }
+    </script>
 </body>
 </html>
